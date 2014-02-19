@@ -14,7 +14,7 @@ public class FlagPagerAdapter extends FragmentPagerAdapter {
 			R.drawable.sakuya,
 			R.drawable.momiji,
 			R.drawable.patch
-	};
+	};;
 	
 	
 	public FlagPagerAdapter(FragmentManager fm) {
@@ -30,7 +30,7 @@ public class FlagPagerAdapter extends FragmentPagerAdapter {
 		Bundle args = new Bundle();
 		args.putInt(FlagFragment.RESOURCE, arrayFlags[position]);
 		fragment.setArguments(args);
-		return null;
+		return fragment;
 	}
 
 	@Override

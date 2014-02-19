@@ -16,7 +16,7 @@ public class ContryDetailActivoty extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_contry_detail_activoty);
+		setContentView(R.layout.activity_country_detail_activity);
 		
 		Intent intent = getIntent();
 		country = intent.getStringExtra(COUNTRY);

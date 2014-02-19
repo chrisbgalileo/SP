@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="start"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context=".DetalleFotografiaActivity" >
+
+    <TextView
+        android:id="@+id/comentario"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/image"
+        android:layout_alignLeft="@+id/image"
+        android:layout_alignRight="@+id/image"
+        android:text="TextView" />
+
+    <fragment 
+        android:name="com.example.tareasemanal"
+        android:id="@+id/fragment_coment"
+        android:layout_alignBottom="@+id/ic_coment"
+        android:layout_above="@+id/comentario" 
+        />
+    
+    
+    <ImageView
+        android:id="@+id/ic_coment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/comentario"
+        android:layout_alignLeft="@+id/image"
+        android:layout_marginTop="350dp"
+        android:layout_marginLeft="10dp"
+        android:src="@android:drawable/sym_action_chat" />
+
+    <ImageView
+        android:id="@+id/image"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:src="@drawable/dibujo" />
+
+</RelativeLayout>
