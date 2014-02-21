@@ -1,22 +1,24 @@
 package com.example.tareasemanal;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.app.Activity;
-import android.content.Intent;
+import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-public class DetalleFotografiaActivity extends Activity {
-
+public class DetalleFotografiaActivity extends FragmentActivity {
+	TextView comentario;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_detalle_fotografia);
-		TextView comentario = (TextView)findViewById(R.id.comentario);
+		comentario = (TextView)findViewById(R.id.editText1);
 		comentario.setText("Comentarios que comentan los comentarios comentariados");
 	}
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -25,7 +27,7 @@ public class DetalleFotografiaActivity extends Activity {
 		return true;
 	}
 
-	@Override
+/*	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
 		case R.id.action_favorite:
@@ -42,7 +44,7 @@ public class DetalleFotografiaActivity extends Activity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	
+	*/
 	
 	
 }

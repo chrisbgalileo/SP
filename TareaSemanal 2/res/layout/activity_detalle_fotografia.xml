@@ -9,39 +9,23 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DetalleFotografiaActivity" >
 
-    <TextView
-        android:id="@+id/comentario"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/image"
-        android:layout_alignLeft="@+id/image"
-        android:layout_alignRight="@+id/image"
-        android:text="TextView" />
+        android:orientation="vertical" >
 
-    <fragment 
-        android:name="com.example.tareasemanal"
-        android:id="@+id/fragment_coment"
-        android:layout_alignBottom="@+id/ic_coment"
-        android:layout_above="@+id/comentario" 
-        />
-    
-    
-    <ImageView
-        android:id="@+id/ic_coment"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/comentario"
-        android:layout_alignLeft="@+id/image"
-        android:layout_marginTop="350dp"
-        android:layout_marginLeft="10dp"
-        android:src="@android:drawable/sym_action_chat" />
+        <ImageView
+            android:id="@+id/imageView1"
+            android:layout_width="283dp"
+            android:layout_height="326dp"
+            android:src="@drawable/dibujo" />
 
-    <ImageView
-        android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
-        android:src="@drawable/dibujo" />
+        <fragment
+            android:id="@+id/coment_fragment"
+            android:name="com.example.tareasemanal.ComentFragment"
+            android:layout_width="match_parent"
+            android:layout_height="115dp" />
+
+    </LinearLayout>
 
 </RelativeLayout>

@@ -18,7 +18,6 @@ public class ComentFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_comment, container, false);
-		View viewComent = view.findViewById(R.id.comentario);
 		return view;
 
 	}
