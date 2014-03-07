@@ -18,107 +18,94 @@ import com.example.demo3.BitmapLRUCache;
 import com.example.demo3.R;
 import com.example.demo3.activities.MainActivity;
 
-public class ImageAdapter extends BaseAdapter
-{
-private ImageLoader imageLoader;
-private LayoutInflater inflater;
-private ArrayList<Image> dataArray;
+public class ImageAdapter extends BaseAdapter {
+	private ImageLoader imageLoader;
+	private LayoutInflater inflater;
+	private ArrayList<Image> dataArray;
+	
+	public ImageAdapter (Context context, ArrayList<Image> dataArray) {
+		this.dataArray = dataArray;
+		this.inflater = LayoutInflater.from(context);
+		this.imageLoader = new ImageLoader(MainActivity.requestQueue,
+								new BitmapLRUCache());
+	}
+	
+	@Override
+	public int getCount() {
+		// TODO Auto-generated method stub
+		return dataArray.size();
+	}
 
-public ImageAdapter(Context context, ArrayList<Image> dataArray)
-{
-this.dataArray = dataArray;
-this.inflater = LayoutInflater.from(context);
-this.imageLoader = new ImageLoader(MainActivity.requestQueue, new BitmapLRUCache());
-}
+	@Override
+	public Object getItem(int arg0) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-@Override
-public int getCount() {
-return dataArray.size();
-}
+	@Override
+	public long getItemId(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-@Override
-public Object getItem(int position) {
-// TODO Auto-generated method stub
-return null;
-}
+	@Override
+	public View getView(int position, View convertView, ViewGroup parent) {
+		ViewHolder holder;
+		Image current = dataArray.get(position);
+		if(convertView == null) {
+			convertView = inflater.inflate(R.layout.grid_image, null);
+			
+			holder = new ViewHolder();
+			holder.txtName = (TextView)convertView.findViewById(R.id.textName);
+			holder.imgFlag = (NetworkImageView)convertView.findViewById(R.id.imageFlag);
+			
+			convertView.setTag(holder);
+		} else {
+			holder = (ViewHolder) convertView.getTag();			
+		}
+		holder.txtName.setText(current.getUserName());
+		holder.imgFlag.setImageUrl(current.getImgUrl(), imageLoader);
+		return convertView;
+	}
+	
+	//Para no llamar tantas veces al arreglo
+	static class ViewHolder {
+		public TextView txtName;
+		public NetworkImageView imgFlag;		
+	}
+	
+	//Recalcular tama;o 
+	public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId, int reqWidth, int reqHeight){
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;
+		BitmapFactory.decodeResource(res, resId, options);
+		
+		options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
+		
+		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeResource(res, resId, options);
+		
+		
+	}
 
-@Override
-public long getItemId(int position) {
-// TODO Auto-generated method stub
-return 0;
-}
-
-@Override
-public View getView(int position, View convertView, ViewGroup parent) {
-ViewHolder holder;
-Image current = dataArray.get(position);
-if(convertView == null)
-{
-convertView = inflater.inflate(R.layout.grid_image, null);
-
-holder = new ViewHolder();
-
-holder.txtName = (TextView)convertView.findViewById(R.id.txtName);
-holder.imgFlag = (NetworkImageView)convertView.findViewById(R.id.imageFlag);
-
-convertView.setTag(holder);
-}
-else
-{
-holder = (ViewHolder)convertView.getTag();
-}
-
-
-holder.txtName.setText(current.getUserName());
-holder.imgFlag.setImageUrl(current.getImgUrl(), imageLoader);
-return convertView;
-}
-
-static class ViewHolder
-{
-public TextView txtName;
-public NetworkImageView imgFlag;
-
-}
-
-//http://developer.android.com/training/displaying-bitmaps/load-bitmap.html
-//Si es igual
-public static Bitmap decodeSampledBitmapFromResource(Resources res, int resId, int reqWidth, int reqHeight)
-{
-// First decode with inJustDecodeBounds=true to check dimensions
-final BitmapFactory.Options options = new BitmapFactory.Options();
-options.inJustDecodeBounds = true;
-BitmapFactory.decodeResource(res, resId, options);
-
-// Calculate inSampleSize
-options.inSampleSize = calculateInSampleSize(options, reqWidth, reqHeight);
-
-// Decode bitmap with inSampleSize set
-options.inJustDecodeBounds = false;
-return BitmapFactory.decodeResource(res, resId, options);
-}
-
-//No es igual a la del video del demo pero al parecer es equivalente:
-public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight)
-{
-// Raw height and width of image
-final int height = options.outHeight;
-final int width = options.outWidth;
-int inSampleSize = 1;
-
-if (height > reqHeight || width > reqWidth)
-{
-final int halfHeight = height / 2;
-final int halfWidth = width / 2;
-
-// Calculate the largest inSampleSize value that is a power of 2 and keeps both
-// height and width larger than the requested height and width.
-while ((halfHeight / inSampleSize) > reqHeight && (halfWidth / inSampleSize) > reqWidth)
-{
-inSampleSize *= 2;
-}
-}
-return inSampleSize;
-}
-
+	//copiada de la documentacion de Android
+	//ver tama;o imagen
+	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+		
+		if(height > reqHeight || width > reqWidth){
+			final int heightRatio = Math.round((float) height/(float) reqHeight);
+			final int widthRatio = Math.round((float) width/(float) reqWidth);
+			
+			inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;	
+		}
+		
+		return inSampleSize;
+	}
+	
+	
+	
+	
 }

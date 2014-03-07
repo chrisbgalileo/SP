@@ -1,83 +1,146 @@
 package com.example.tareasemanal;
 
-import android.app.ListActivity;
-import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
-import android.view.Menu;
+import android.support.v4.app.ActionBarDrawerToggle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
+import android.view.MenuItem;
 import android.view.View;
-import android.view.View.OnClickListener;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 
 
-
-public class MainActivity extends ListActivity {
-	Button btn;
+public class MainActivity extends ActionBarActivity{
+		
+	
+	private ListView drawerList;
+	private String[] drawerOptions;
+	private DrawerLayout drawerLayout;
+	private ActionBarDrawerToggle drawerToggle;
+	private Fragment[] fragments = new Fragment[]{
+			new Content_fragment()
+	};
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		
-		btn = (Button) findViewById(R.id.btn);
-		btn.setOnClickListener(new ButtonListener());
+		drawerList = (ListView)findViewById(R.id.drawer);
+		drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+		drawerOptions = getResources().getStringArray(R.array.drawer_options);
+		
+		drawerList.setAdapter(new ArrayAdapter<String>(this, R.layout.drawer_items, drawerOptions));
+		
+		drawerList.setItemChecked(0, true);
+		drawerList.setOnItemClickListener(new DrawerItemClickListener());
+		
+		FragmentManager manager = getSupportFragmentManager();
+		manager.beginTransaction()
+			.add(R.id.contentFrame, fragments[0])
+			//.add(R.id.contentFrame, fragments[1])
+			//.hide(fragments[0])
+			.commit();
 		
 		
-		//Array con el nombre de las tiendas
-		String[] nombres = new String[] {
-				"Tienda de Lego",
-				"Tienda de comida",
-				"Tienda de anime :D",
-				"Tienda de videojuegos"				
+		drawerToggle = new ActionBarDrawerToggle(this
+				,drawerLayout
+				,R.drawable.ic_drawer_am
+				, R.string.drawer_open
+				, R.string.drawer_close){
+		
+			
+			public void onDrawerClosed(View view) {
+				ActivityCompat.invalidateOptionsMenu(MainActivity.this);
+			}
+			
+			public void onDrawerOpened(View drawerView) {
+				
+			}
+			
+			
 		};
 		
-		//Adaptador 
-		ListAdapter adaptador = new ArrayAdapter<String>
-								(this, android.R.layout.simple_list_item_1,
-								nombres);
-		//Asociamos el adaptador a la vista
+		drawerLayout.setDrawerListener(drawerToggle);
 		
-		ListView lv = (ListView)findViewById(android.R.id.list);
-		lv.setAdapter(adaptador);
+
+		ActionBar actionBar = getSupportActionBar();
+		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+		actionBar.setTitle(drawerOptions[0]);
 		
+		actionBar.setDisplayHomeAsUpEnabled(true);
+		actionBar.setHomeButtonEnabled(true);
 		
+	}
+	
+	public void setContent(int index) {
+		Fragment toHide = null;
+		Fragment toShow = null;
+		ActionBar actionBar = getSupportActionBar();
+		
+		switch (index) {
+		case 0:
+			toHide = fragments[1];
+			toShow = fragments[0];
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
+			break;
+		case 1:
+			toHide = fragments[0];
+			toShow = fragments[1];
+			actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
+			break;	
+		}
+		actionBar.setTitle(drawerOptions[index]);
+		FragmentManager manager = getSupportFragmentManager();
+		manager.beginTransaction().hide(toHide).show(toShow).commit();
+		
+		drawerList.setItemChecked(index, true);
+		drawerLayout.closeDrawer(drawerList);
+	}
+	
+	
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		drawerToggle.onConfigurationChanged(newConfig);
+	}
+	
+	
+	@Override
+	protected void onPostCreate(Bundle savedInstanceState) {
+		super.onPostCreate(savedInstanceState);
+		drawerToggle.syncState();
 	}
 
-	@Override
-	protected void onListItemClick(ListView l, View v,
-									int position, long id) {
-		super.onListItemClick(l, v, position, id);
-		
-		String tiendaText = l.getItemAtPosition(position).toString();
-		Intent intent = new Intent(getApplicationContext(),
-								InfoTiendaActivity.class);
-		intent.putExtra(InfoTiendaActivity.QUERY, tiendaText);
-		startActivity(intent);
+	public boolean onOptionsItemSelected(MenuItem item) {
+		if (item.getItemId() == android.R.id.home) {
+			if(drawerLayout.isDrawerOpen(drawerList)) {
+				drawerLayout.closeDrawer(drawerList);
+			} else {
+				drawerLayout.openDrawer(drawerList);
+			}
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
 		
 	}
 	
 	
-	
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
-	
-	class ButtonListener implements OnClickListener {
+	class DrawerItemClickListener implements ListView.OnItemClickListener {
 
-		
 		@Override
-		public void onClick(View v) {
-			Intent intent = new Intent(getApplicationContext(),
-									DetalleFotografiaActivity.class);
-			startActivity(intent);
+		public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+				long arg3) {
+			setContent(position);
+			
 		}
-
-		}
-
+		
+	}
 
 }

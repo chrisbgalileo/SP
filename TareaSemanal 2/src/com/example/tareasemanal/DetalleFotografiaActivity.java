@@ -6,16 +6,28 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.tareasemanal.R;
 public class DetalleFotografiaActivity extends FragmentActivity {
-	TextView comentario;
+	TextView comment;
+	ListView listView;
+	ArrayAdapter<String> adapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_detalle_fotografia);
-		comentario = (TextView)findViewById(R.id.editText1);
-		comentario.setText("Comentarios que comentan los comentarios comentariados");
+		setContentView(R.layout.activity_detalle_fotografia);	
+		comment = (TextView)findViewById(R.id.comment_text); 
+		listView = (ListView) findViewById(R.id.list_fragment); 
+		adapter = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_1); 
+		listView.setAdapter(adapter); 
+		addcomment();
 	}
 	
 	
@@ -27,7 +39,7 @@ public class DetalleFotografiaActivity extends FragmentActivity {
 		return true;
 	}
 
-/*	@Override
+	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()){
 		case R.id.action_favorite:
@@ -44,7 +56,18 @@ public class DetalleFotografiaActivity extends FragmentActivity {
 			return super.onOptionsItemSelected(item);
 		}
 	}
-	*/
+	
+	public void addcomment() { 
+		Button btncall = (Button)findViewById(R.id.btn_comment); 
+		btncall.setOnClickListener(new OnClickListener() { 
+			@Override 
+			public void onClick(View v) { 
+				adapter.add(comment.getText().toString()); 
+				adapter.notifyDataSetChanged(); 
+			} 
+		}); 
+	}
+	
 	
 	
 }

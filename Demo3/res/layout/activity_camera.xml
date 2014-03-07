@@ -23,10 +23,9 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/image"
+        android:id="@+id/img"
         android:contentDescription="@string/hello_world"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-    />
+        android:layout_height="wrap_content" />
 
 </LinearLayout>

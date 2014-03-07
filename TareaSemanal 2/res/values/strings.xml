@@ -10,5 +10,13 @@
     <string name="MALLO">          MALL-O</string>
     <string name="title_activity_info_tienda">InfoTiendaActivity</string>
     <string name="title_activity_detalle_fotografia">DetalleFotografiaActivity</string>
+    <string name="drawer_open">Abrir</string>
+	<string name="drawer_close">Cerrar</string>
+    <string name="comentar">Comentar</string>
+    <string-array name="drawer_options" >
+        <item> Imagenes</item>
+        <item> Tiendas</item>
+        <item> Comunidad</item>
+    </string-array>
 
 </resources>

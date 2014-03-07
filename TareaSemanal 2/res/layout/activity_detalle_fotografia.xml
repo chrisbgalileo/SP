@@ -8,24 +8,24 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".DetalleFotografiaActivity" >
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="283dp"
-            android:layout_height="326dp"
-            android:src="@drawable/dibujo" />
-
-        <fragment
-            android:id="@+id/coment_fragment"
-            android:name="com.example.tareasemanal.ComentFragment"
-            android:layout_width="match_parent"
-            android:layout_height="115dp" />
-
-    </LinearLayout>
+    
+        <LinearLayout
+        	android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+        		            
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="match_parent"
+                android:layout_height="279dp"
+                android:src="@drawable/dibujo" />
+       
+           	<fragment
+               	android:id="@+id/comment_fragment"
+                android:name="com.example.tareasemanal.ComentFragment"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+           	 
+       </LinearLayout>
 
 </RelativeLayout>

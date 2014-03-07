@@ -1,23 +1,30 @@
 package com.example.tareasemanal;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.text.util.Linkify;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ListView;
 import android.widget.TextView;
 
-public class InfoTiendaActivity extends Activity {
+public class InfoTiendaActivity extends FragmentActivity {
 	
 	Button call_btn;
 	String tel = "00000000";
 	private String queryText = "";
 	public static final String QUERY = "query";
+	
+	TextView comment;
+	ListView listView;
+	ArrayAdapter<String> adapter;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +52,11 @@ public class InfoTiendaActivity extends Activity {
 			Linkify.addLinks(txtMsg, Linkify.ALL);
 			
 		}
+		comment = (TextView)findViewById(R.id.comment_text); 
+		listView = (ListView) findViewById(R.id.list_fragment); 
+		adapter = new ArrayAdapter <String>(this, android.R.layout.simple_list_item_1); 
+		listView.setAdapter(adapter); 
+		addcomment();
 		
 		
 	}
@@ -79,7 +91,16 @@ public class InfoTiendaActivity extends Activity {
 		}
 	}
 
-
+public void addcomment() { 
+	Button btncall = (Button)findViewById(R.id.btn_comment); 
+	btncall.setOnClickListener(new OnClickListener() { 
+		@Override 
+		public void onClick(View v) { 
+			adapter.add(comment.getText().toString()); 
+			adapter.notifyDataSetChanged(); 
+		} 
+	}); 
+}
 
 class ButtonListener implements OnClickListener {
 
