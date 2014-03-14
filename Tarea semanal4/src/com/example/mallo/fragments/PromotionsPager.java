@@ -1,0 +1,48 @@
+package com.example.mallo.fragments;
+
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.support.v4.app.DialogFragment;
+import android.widget.ArrayAdapter;
+
+public class PromotionsPager extends DialogFragment {
+	
+
+
+	private static final int LOAD_IMAGE =1;
+	private static final int CAMERA = 2;
+	public int request =0;;
+	public int result =0;
+	public Intent i = null;
+	
+	@Override
+	public Dialog onCreateDialog(Bundle savedInstanceState) {
+		AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+		builder.setTitle("Menu");
+		ArrayAdapter<String> adapter = new ArrayAdapter<String>(getActivity(),android.R.layout.simple_list_item_1);
+		adapter.add("Tomar Fotografia");
+		adapter.add("Desde la galeria");
+		builder.setAdapter(adapter, new DialogInterface.OnClickListener() {
+			
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				int code = 0;
+				Intent intent = null;
+				if(which==0){
+					 intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+					 code = CAMERA;
+				}else if(which==1){
+					intent = new Intent(Intent.ACTION_PICK,android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+					code = LOAD_IMAGE;
+				}
+					startActivityForResult(intent, code);
+			}
+		});
+		
+		return builder.create();
+	}
+}
